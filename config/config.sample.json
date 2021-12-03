@@ -1,0 +1,32 @@
+{
+    "db": {
+        "host": "127.0.0.1",
+        "port": 45432,
+        "user": "postgres",
+        "password": "postgres",
+        "db_name": "spark_server_dev",
+        "tz": "UTC"
+    },
+    "chain": {
+        "_comment": "See config.SupportedChain to get all chain supported",
+        "ethereum": {
+            "rpc_url": "https://ropsten.infura.io/v3/xxxxxxxxxxxxxxx",
+            "contract_address": "0x7B5B92B0eD1DfeafdbD724b177A7733Bda67497F",
+            "block_height": 9269258,
+            "sleep_seconds": 1,
+            "fail_sleep_seconds": 5,
+            "block_confirm_count": 3,
+            "_comment": "Privkey below is for cmd/shill and cmd/publish only. No need to set this in production.",
+            "operator_account_privkey": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
+        }
+    },
+    "telegram": {
+        "token": "123456789:AAAAAAAAAAAAAAAAAAA",
+        "spark_link_url_base": "https://sparklink.io/#/",
+        "block_viewer_url_base": "https://polygonscan.com/"
+    },
+    "pinata": {
+        "key": "ffffffffffffffffffff",
+        "secret": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    }
+}

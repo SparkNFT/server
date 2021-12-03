@@ -1,0 +1,9 @@
+env.mk
+
+/config/config.json
+/config/config.test.json
+
+# built artifacts
+/build
+/abi/*
+!/abi/ERC20.json

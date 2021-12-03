@@ -1,0 +1,202 @@
+FORMAT: 1A
+
+# General
+
+## Structure
+
+All requests and responses are `Content-Type: application/json`.
+
+Requests may be slow to respond. Add visualized indicator on UI during
+request if needed.
+
+## How to generate signature
+
+1. Build your requets body (omit `signature` field).
+
+   ```javascript
+   { nft_id: "42", account: "0xdd8b2EC9586D6EcF35049c05F589A03d44fc067F", chain: "ethereum" }
+   ```
+
+2. Make sure payload is sorted by "key ascending" order.
+
+   ```javascript
+   { account: "0xdd8b2EC9586D6EcF35049c05F589A03d44fc067F", chain: "ethereum", nft_id: "42" }
+   ```
+
+3. `JSON.stringify()` it.
+
+   ```javascript
+   '{"account":"0xdd8b2EC9586D6EcF35049c05F589A03d44fc067F","chain":"ethereum","nft_id":"42"}'
+   ```
+
+4. Sign this string using `personal_sign` method.
+
+   > See also: [Signing data with MetaMask](https://docs.metamask.io/guide/signing-data.html)
+
+   > [A live demo](https://danfinlay.github.io/js-eth-personal-sign-examples/). Kinda outdated though.
+
+   > The signature should be 65 bytes long (r(32) + s(32) + v(1)), and `v` must be "1b" (27 in dec) or "1c" (28 in dec)
+
+   ```json
+   "0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF....."
+   ```
+
+## Chain `name <-> ContractAddress` mapping
+
+| Backend environment | Contract environment | `chain`  | contract address                                                                         |
+|---------------------|----------------------|----------|------------------------------------------------------------------------------------------|
+| Staging             | Production           | bsc      | [0xDc891065](https://www.bscscan.com/address/0xDc89106504f82642801dc43C8B545Ef7DA95ff2b) |
+| Staging             | Production           | matic    | [0x166BCdc5](https://polygonscan.com/address/0x166BCdc53BC8573448F37C66EF409f1Cb31450a2) |
+| Staging             | Production           | ethereum | [0x71872117](https://etherscan.io/address/0x7187211744c67F8cE89fEAc63b85D8D17417bDfE)    |
+
+# Group Encryption key request
+## Get an encryption key for an issue [POST /api/v1/key/claim]
+
+Both owner and subscribers can call this API.
+
+- Both root owner and shill owner can call this API (using their own `nft_id`).
+- When root owner call this API for the first time, a key will be generated and returned.
+
++ Request (application/json)
+
+    + Attributes (object)
+
+        - chain (string, required) - Chain name
+        - nft_id (string, required) - NFT ID of an issue in contract (dec string).
+        - account (string, required) - ETH wallet address of current user
+        - signature (string, required) - Signature of this request. See 'How to generate signature' part above.
+
+    + Body
+
+            {
+              "chain": "bsc",
+              "nft_id": "4294967297",
+              "account": "0xdd8b2EC9586D6EcF35049c05F589A03d44fc067F",
+              "signature": "0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
+            }
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+
+        - key (string, required) - Encryption key
+        - pinata (object, required) - Pinata upload info
+          - api_key (string, required) - Pinata upload API key
+          - api_secret (string, required) - Pinata upload API secret
+
+
+    + Body
+
+            {
+              "key": "ubaeleec7RaungieghooTuBiecei2eepie8daighooNoo0zai3ebaemep2uleib1",
+              "pinata": {
+                "api_key": "ffffffffffffffffffff",
+                "api_secret": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+              }
+            }
+
++ Response 400 (application/json)
+
+Bad request. `message` will be one of these:
+
+- `signature invalid` : Signature given is not signed by `account`
+- `param invalid` : Attributes given invalid.
+- `not owned` : `nft_id` is not owned by this account
+- `not found` : `nft_id` not found on chain
+- `not root` : `nft_id` given is not a root ID and current issue haven't generate a key. (Rare condition. Should not happen.)
+
+
+    + Attributes (object)
+
+        - message (string, required) - Error message. See list above.
+
+    + Body
+
+            {
+              "message": "subscription invalid"
+            }
+
+# Group Relation Tree
+## Get all NFT of a user [GET /api/v1/nft/list]
+
++ Request
+
+    + Attributes
+
+        - chain (string, required) - Chain name
+        - owner (string, required) - Wallet address of owner (case sensitive - keep original case).
+
+    + Example
+
+        `GET /api/v1/nft/list?owner=0x000E16240Ed36Eb1a8F9c8763a3b914562670A6B&chain=bsc`
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+
+        + nft (array(string), required) - NFT IDs of current user
+
+    + Body
+
+            {
+              "nft": ["4294967297", "4294967298", "4294967299"]
+            }
+
+## Get NFT info [GET /api/v1/nft/info]
+
+There are 3 possible `suggest_next_nft` situation in response body:
+
+- An ID different from given `nft_id=xxx` => Suggest users to redirect
+  to the next NFT to shill.
+- Same number as given `nft_id=xxx` => The current NFT still has room
+  to shill. No need to suggest a differnt one.
+- `0` => This NFT has no usable child NFT to shill. Almost impossible
+  to see this result. I leave this situation here just in case.
+
++ Request
+
+    + Attributes
+
+        - nft_id (string, required) - NFT ID to be queried (dec string).
+        - chain (string, required) - Chain name
+
+    + Example
+
+        `GET /api/v1/nft/info?nft_id=4294967297&chain=bsc`
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+
+        + children_count (number, required) - Total children amount below this NFT. All generation (layer) included.
+        + tree (object, required) - Children structure of this NFT.
+          + nft_id (string, required) - NFT ID
+          + children (array(object), required) - All children of this sub NFT
+        + suggest_next_nft (string, required) - Next NFT to buy.
+        + shill_times (number, required) - Current shill times of this NFT.
+        + max_shill_times (number, required) - Shill capacity of this NFT.
+
+    + Body
+
+            {
+              "children_count": 6,
+              "tree": {
+                "nft_id": "4294967297",
+                "children": [{
+                  "nft_id": "4294967298",
+                  "children": []
+                }, {
+                  "nft_id": "4294967299",
+                  "children": [{
+                    "nft_id": "4294967300",
+                    "children": []
+                  }, {
+                    "nft_id": "4294967301,
+                    "children": []
+                  }]
+                }]
+              },
+              "suggest_next_nft": "4294967297",
+              "shill_times": 3,
+              "max_shill_times": 10
+            }

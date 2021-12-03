@@ -1,0 +1,58 @@
+* SparkLink artifact encryption key & NFT relationship query server
+  :PROPERTIES:
+  :ID:       0f48b478-a8d9-4085-a114-fada334745fa
+  :END:
+
+** Build
+   :PROPERTIES:
+   :ID:       b30599b0-805d-4fb6-95b2-29d4d2f807db
+   :END:
+
+   #+begin_quote
+   Make sure your =go version= is ~>= 1.17~
+   #+end_quote
+
+   #+begin_src sh
+     git clone --recursive https://github.com/SparkNFT/key_server.git
+     cd key_server
+     make prepare abigen test-prepare test
+     make build
+   #+end_src
+
+** Start server
+   :PROPERTIES:
+   :ID:       8d846815-5665-40ca-86ff-d77ba9645743
+   :END:
+
+   After =make build=, check =build/server -h= for usage.
+
+   For example,
+
+   #+begin_src sh
+     build/server -c config/config.json -debug
+   #+end_src
+
+** Interact with contract
+   :PROPERTIES:
+   :ID:       a4006d5c-94c4-415a-8e26-3c5da702e7c0
+   :END:
+
+   After =make build=, check =build/publish -h= and =build/shill -h= for publishing an issue or shilling an NFT.
+
+   Note that they will use =chain -> operator_account_privkey= as identity.
+
+** Development
+   :PROPERTIES:
+   :ID:       26771e1d-7243-4a2b-8cfe-c01ef722ea49
+   :END:
+
+   1. Fork it.
+   2. Do whatever you like.
+
+** License
+   :PROPERTIES:
+   :ID:       6141588d-4049-4037-b306-3c5160c09f6a
+   :END:
+
+   [[file:LICENSE][MIT]].
+
