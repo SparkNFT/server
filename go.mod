@@ -1,6 +1,6 @@
 module github.com/SparkNFT/key_server
 
-go 1.17
+go 1.19
 
 require (
 	github.com/akrylysov/algnhsa v0.12.1
