@@ -4,31 +4,28 @@ go 1.19
 
 require (
 	github.com/akrylysov/algnhsa v0.12.1
-	github.com/aws/aws-sdk-go-v2 v1.8.0
-	github.com/aws/aws-sdk-go-v2/config v1.6.0
-	github.com/aws/aws-sdk-go-v2/service/secretsmanager v1.5.0
+	github.com/aws/aws-sdk-go-v2 v1.17.3
+	github.com/aws/aws-sdk-go-v2/config v1.18.11
+	github.com/aws/aws-sdk-go-v2/service/secretsmanager v1.18.2
 	github.com/ethereum/go-ethereum v1.10.26
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.8.2
-	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/lib/pq v1.10.7
 	github.com/stretchr/testify v1.8.1
-	golang.org/x/tools v0.1.12 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	xorm.io/xorm v1.3.2
 )
 
 require (
-	github.com/StackExchange/wmi v1.2.1 // indirect
-	github.com/aws/aws-lambda-go v1.13.3 // indirect
-	github.com/aws/aws-sdk-go-v2/credentials v1.3.2 // indirect
-	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.4.0 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/ini v1.2.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.2.2 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sso v1.3.2 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sts v1.6.1 // indirect
-	github.com/aws/smithy-go v1.7.0 // indirect
+	github.com/aws/aws-lambda-go v1.37.0 // indirect
+	github.com/aws/aws-sdk-go-v2/credentials v1.13.11 // indirect
+	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.21 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/ini v1.3.28 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.21 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sso v1.12.0 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sts v1.18.2 // indirect
+	github.com/aws/smithy-go v1.13.5 // indirect
 	github.com/btcsuite/btcd v0.20.1-beta // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/deckarep/golang-set v1.8.0 // indirect
@@ -66,15 +63,19 @@ require (
 require gopkg.in/tucnak/telebot.v3 v3.0.0-20211015201320-13d54ae7338e
 
 require (
+	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.27 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.21 // indirect
+	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.14.0 // indirect
 	github.com/btcsuite/btcd/btcec/v2 v2.3.2 // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.1.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.6 // indirect
 	github.com/yusufpapurcu/wmi v1.2.2 // indirect
 	golang.org/x/net v0.5.0 // indirect
+	golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4 // indirect
 	golang.org/x/text v0.6.0 // indirect
 )
 
 require (
-	github.com/looplab/fsm v0.3.0
+	github.com/looplab/fsm v1.0.1
 	github.com/pkg/errors v0.9.1 // indirect
 )

@@ -11,8 +11,8 @@ import (
 
 type BlockLog struct {
 	Id          uint64    `xorm:"pk autoincr"`
-	Chain       string    `xorm:"'chain' index notnull"`
-	BlockHeight uint64    `xorm:"'block_height' notnull"`
+	Chain       string    `xorm:"'chain' notnull unique(chain_height)"`
+	BlockHeight uint64    `xorm:"'block_height' notnull unique(chain_height)"`
 	Scanned     bool      `xorm:"'scanned' index default(false)"`
 
 	CreatedAt   time.Time `xorm:"'created_at' created"`
