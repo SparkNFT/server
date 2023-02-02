@@ -18,7 +18,7 @@ prepare:
 
 abigen:
 	@-mkdir abi
-	jq .abi contract/artifacts/contracts/SparkLink.sol/SparkLink.json > abi/SparkLink.json
+	jq .abi contract/abi/SparkLink.json > abi/SparkLink.json
 	abigen --abi abi/SparkLink.json --pkg abi --type SparkLink --out abi/spark_nft.go
 	abigen --abi abi/ERC20.json --pkg abi --type ERC20 --out abi/erc20.go
 
